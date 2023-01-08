@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://props/setups/Theme/commonUIe.tres" type="Theme" id=1]
+[ext_resource path="res://assets/img/dirt/dirt_diffuseOriginal.jpg" type="Texture" id=2]
+[ext_resource path="res://assets/img/ui/basket.png" type="Texture" id=3]
+[ext_resource path="res://assets/img/ui/IndieFlower-Regular.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://assets/img/ui/Honey Silk.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+size = 137
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 26
+font_data = ExtResource( 4 )
+
+[node name="LayoutSummary" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -512.0
+margin_top = -300.0
+margin_right = 512.0
+margin_bottom = 300.0
+texture = ExtResource( 2 )
+expand = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -387.5
+margin_top = -251.0
+margin_right = 387.5
+margin_bottom = 251.0
+theme = ExtResource( 1 )
+custom_constants/separation = 8
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 775.0
+margin_bottom = 165.0
+custom_fonts/font = SubResource( 1 )
+text = "G'night"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+margin_top = 173.0
+margin_right = 775.0
+margin_bottom = 438.0
+custom_constants/margin_bottom = 16
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer"]
+margin_right = 775.0
+margin_bottom = 249.0
+custom_fonts/font = SubResource( 2 )
+text = "This was supposed to be a summary of your yield and
+if you were successful in collecting fresh ones
+(that are supposed to grow during that time (season)).
+
+Due to time I'll have to finish here. 
+Hope you've enjoyed this mini game (jam)."
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 446.0
+margin_right = 775.0
+margin_bottom = 500.0
+custom_constants/separation = -135
+
+[node name="ItemPickedSum" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_right = 300.0
+margin_bottom = 54.0
+size_flags_horizontal = 3
+custom_constants/hseparation = 20
+shortcut_in_tooltip = false
+text = "99"
+icon = ExtResource( 3 )
+align = 0
+expand_icon = true
+
+[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 165.0
+margin_right = 775.0
+margin_bottom = 54.0
+text = "Restart or Refresh page (F5) to Start again"
+icon = ExtResource( 3 )
+align = 2
+expand_icon = true

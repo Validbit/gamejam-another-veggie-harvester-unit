@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/Pickup.gd" type="Script" id=1]
+[ext_resource path="res://props/PickupModel.tscn" type="PackedScene" id=2]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.382478, 0.188179, 0.0482915 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "PickupAnim"
+length = 4.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 40, 0 ), Vector3( 0, -40, 0 ), Vector3( 0, 40, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "PickupAnimNw"
+
+[node name="Pickup" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Model" parent="." instance=ExtResource( 2 )]
+transform = Transform( 0.766044, 0, 0.642788, 0, 1, 0, -0.642787, 0, 0.766045, 0, 0, 0 )
+
+[node name="Area" type="Area" parent="Model"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Model/Area"]
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Model"]
+autoplay = "PickupAnim"
+anims/PickupAnim = SubResource( 2 )
+anims/PickupAnimNw = SubResource( 3 )
+
+[connection signal="body_entered" from="Model/Area" to="." method="_on_Area_body_entered"]

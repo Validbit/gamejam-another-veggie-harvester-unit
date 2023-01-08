@@ -1,0 +1,80 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scripts/World.gd" type="Script" id=1]
+[ext_resource path="res://props/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/cl_Checkpoint.gd" type="Script" id=6]
+[ext_resource path="res://props/mat/dirt.tres" type="Material" id=7]
+[ext_resource path="res://props/setups/World/GeneratedTerrain.tscn" type="PackedScene" id=8]
+[ext_resource path="res://props/setups/WorldEnvironment/WorldEnvironment.tres" type="Environment" id=9]
+
+[sub_resource type="CubeMesh" id=1]
+material = ExtResource( 7 )
+size = Vector3( 60, 1, 120 )
+
+[sub_resource type="ConvexPolygonShape" id=3]
+points = PoolVector3Array( 30, 0.5, 60, 30, -0.5, 60, 30, 0.5, -60, -30, 0.5, 60, -30, -0.5, 60, 30, -0.5, -60, -30, 0.5, -60, -30, -0.5, -60 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.978433, 0.645503, 0.131405 )
+
+[sub_resource type="CubeMesh" id=5]
+size = Vector3( 1.786, 1.128, 0.293 )
+
+[node name="World" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.538303, 0 )
+acc = 20
+steer_angle = 14
+steer_limit_tilt = 116
+
+[node name="StaticBody" type="StaticBody" parent="."]
+visible = false
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+mesh = SubResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+shape = SubResource( 3 )
+
+[node name="SessTimer" type="Timer" parent="."]
+wait_time = 150.0
+one_shot = true
+
+[node name="Trigger" type="Node" parent="."]
+
+[node name="Checkpoint" type="Node" parent="Trigger"]
+
+[node name="C1" type="Area" parent="Trigger/Checkpoint"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.15995 )
+visible = false
+script = ExtResource( 6 )
+index = 1
+
+[node name="SpawnPoint" type="Spatial" parent="Trigger/Checkpoint/C1"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Trigger/Checkpoint/C1"]
+shape = SubResource( 4 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Trigger/Checkpoint/C1/CollisionShape"]
+mesh = SubResource( 5 )
+
+[node name="Spawn" type="Area" parent="Trigger/Checkpoint"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.802382, 0 )
+script = ExtResource( 6 )
+
+[node name="SpawnPoint" type="Spatial" parent="Trigger/Checkpoint/Spawn"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 9 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="WorldEnvironment"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 42.3827, 9.2522 )
+visible = false
+
+[node name="TerrainGenerator" parent="." instance=ExtResource( 8 )]
+
+[connection signal="timeout" from="SessTimer" to="." method="_on_SessTimer_timeout"]
